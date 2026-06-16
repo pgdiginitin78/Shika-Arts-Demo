@@ -33,11 +33,7 @@ const resolveWooProductId = async (item) => {
 
   const node = productToNode(item?.product || item);
   const handle =
-    item?.handle ||
-    item?.slug ||
-    node?.handle ||
-    item?.product?.handle ||
-    item?.product?.slug;
+    item?.handle || item?.slug || node?.handle || item?.product?.handle || item?.product?.slug;
 
   if (handle) {
     const product = await getProductBySlug(handle);
@@ -51,11 +47,8 @@ const resolveWooProductId = async (item) => {
     const results = await searchProducts(title);
 
     const exact =
-      results?.find(
-        (p) =>
-          p?.slug === handle ||
-          p?.name?.toLowerCase() === title.toLowerCase()
-      ) || results?.[0];
+      results?.find((p) => p?.slug === handle || p?.name?.toLowerCase() === title.toLowerCase()) ||
+      results?.[0];
 
     const productId = toNumber(exact?.id);
 
@@ -207,9 +200,7 @@ export const useCartStore = create((set, get) => ({
 
     try {
       await Promise.all(
-        currentItems
-          .filter((item) => item?.key)
-          .map((item) => removeCartItem(item.key))
+        currentItems.filter((item) => item?.key).map((item) => removeCartItem(item.key)),
       );
 
       await get().syncCart();
@@ -221,6 +212,5 @@ export const useCartStore = create((set, get) => ({
     }
   },
 
-  getCheckoutUrl: () =>
-    "https://tan-cattle-873141.hostingersite.com/checkout",
+  getCheckoutUrl: () => "https://lawngreen-marten-717862.hostingersite.com/checkout",
 }));

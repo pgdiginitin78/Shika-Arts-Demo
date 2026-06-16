@@ -322,7 +322,7 @@ export function LoginModal({ isOpen, onClose }) {
               startIcon={<GoogleIcon />}
               onClick={() => {
                 const returnUrl = window.location.origin; // auto-detects 5173, 5177, vercel, etc.
-                window.location.href = `https://tan-cattle-873141.hostingersite.com/wp-login.php?loginSocial=google&redirect_to=${encodeURIComponent(returnUrl)}`;
+                window.location.href = `https://lawngreen-marten-717862.hostingersite.com/wp-login.php?loginSocial=google&redirect_to=${encodeURIComponent(returnUrl)}`;
               }}
               sx={{
                 py: 1.2,

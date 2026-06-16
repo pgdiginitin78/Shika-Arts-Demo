@@ -30,7 +30,7 @@ export function CartDrawer() {
 
   const handleCheckout = () => {
     setOpen(false);
-    window.location.href = "https://tan-cattle-873141.hostingersite.com/checkout";
+    window.location.href = "https://lawngreen-marten-717862.hostingersite.com/checkout";
   };
 
   return (

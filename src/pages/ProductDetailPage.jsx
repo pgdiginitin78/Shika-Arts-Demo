@@ -300,7 +300,8 @@ function ProductDetailPage() {
               </div>
               <button
                 onClick={() => {
-                  window.location.href = "https://tan-cattle-873141.hostingersite.com/checkout";
+                  window.location.href =
+                    "https://lawngreen-marten-717862.hostingersite.com/checkout";
                 }}
                 className="w-full h-9 cursor-pointer flex items-center justify-center gap-1.5 border border-[#C5A26F] text-[#C5A26F] rounded text-[10px] font-bold uppercase tracking-widest hover:bg-[#FDF8F1] transition-colors mb-4"
               >
