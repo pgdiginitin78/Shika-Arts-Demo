@@ -8,20 +8,20 @@ import WeddingGift from "../assets/homePage/Wedding.webp";
 
 export const CATEGORIES = [
   {
-    slug: "Occasions",
-    label: "Occasions",
-    productType: "Occasions",
-    tagline: "Engraved & made for them",
-    icon: "✎",
-    image: OccasionsImage,
-  },
-  {
     slug: "Corporate",
     label: "Shop Corporate Gift",
     productType: "Corporate",
     tagline: "Professional excellence",
     icon: "❖",
     image: CorporateImage,
+  },
+  {
+    slug: "Occasions",
+    label: "Occasions",
+    productType: "Occasions",
+    tagline: "Engraved & made for them",
+    icon: "✎",
+    image: OccasionsImage,
   },
   {
     slug: "Wedding",
