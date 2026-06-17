@@ -307,7 +307,7 @@ export function Header() {
                   <div className="col-span-1">
                     <div className=" w-full bg-secondary overflow-hidden">
                       <img
-                        src={CATEGORIES.find((c) => c.slug.toLowerCase() === activeData.slug.toLowerCase() || c.slug.toLowerCase() === (activeData.slug === 'customizedgifts' ? 'customization' : ''))?.image}
+                        src={CATEGORIES.find((c) => c.slug.toLowerCase().replace(/\s+/g, '') === activeData.slug.toLowerCase().replace(/\s+/g, '') || c.slug.toLowerCase() === (activeData.slug === 'customizedgifts' ? 'customization' : ''))?.image}
                         alt={activeData.name.replace(/&amp;/g, '&')}
                         className="w-full h-full object-cover grayscale-[0.2]"
                       />

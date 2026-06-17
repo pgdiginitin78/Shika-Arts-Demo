@@ -150,6 +150,17 @@ export const removeCartItem = async (cartItemKey) => {
   return data;
 };
 
+export const getVariationPrice = async (productId, variationId) => {
+  try {
+    const { data } = await api.get(
+      `/wp-json/wc/store/v1/products/${variationId}`
+    );
+    return data;
+  } catch {
+    return null;
+  }
+};
+
 export const getProductBySlug = async (slug) => {
   const { data } = await api.get("/wp-json/wc/store/v1/products", {
     params: {
@@ -159,10 +170,19 @@ export const getProductBySlug = async (slug) => {
 
   const cleaned = slug?.replace(/-/g, " ").toLowerCase();
 
-  return (
+  const product =
     data?.find((p) => p.slug === slug) ||
     data?.find((p) => p.slug === cleaned) ||
     data?.find((p) => p.name?.toLowerCase() === cleaned) ||
-    null
-  );
+    null;
+
+  // For variable products, eagerly fetch all variation prices in parallel
+  if (product && product.type === "variable" && product.variations?.length > 0) {
+    const variationDetails = await Promise.all(
+      product.variations.map((v) => getVariationPrice(product.id, v.id))
+    );
+    product._variationDetails = variationDetails.filter(Boolean);
+  }
+
+  return product;
 };

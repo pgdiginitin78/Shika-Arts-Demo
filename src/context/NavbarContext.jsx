@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useLayoutEffect, useState } from "react";
+import { createContext, useContext, useLayoutEffect, useState } from "react";
 import { getCategories } from "../services/LoginServices";
 
 const NavbarContext = createContext([]);
@@ -12,8 +12,8 @@ export function NavbarProvider({ children }) {
         const filteredCategories = res.filter((category) => category.slug !== "uncategorized");
         
         const desiredOrder = [
-          "occasions", 
           "corporate", 
+          "occasions", 
           "wedding", 
           "customizedgifts", 
           "customization", 

@@ -37,6 +37,25 @@ export function normalizeProduct(p) {
         : p?.categories?.[0]?.name || "",
       tags: isCustomApiFormat ? p?.tags || [] : p?.tags?.map((t) => t.name) || [],
 
+      // Pass through variation metadata for variable products
+      productVariationType: p?.type || "simple",
+      attributes: p?.attributes || [],
+      variations: p?.variations || [],
+      // Pre-fetched variation details with prices (set by getProductBySlug)
+      variationDetails: (p?._variationDetails || []).map((vd) => {
+        const minorUnit = Number(vd?.prices?.currency_minor_unit ?? 2);
+        const priceMinor = Number(vd?.prices?.price ?? 0);
+        const regularPriceMinor = Number(vd?.prices?.regular_price ?? 0);
+        return {
+          id: vd.id,
+          attributes: vd.attributes || [],
+          price: Number.isFinite(priceMinor) ? priceMinor / 10 ** minorUnit : 0,
+          regularPrice: Number.isFinite(regularPriceMinor) ? regularPriceMinor / 10 ** minorUnit : 0,
+          currencyCode: vd?.prices?.currency_code || "INR",
+          inStock: vd?.is_in_stock ?? true,
+        };
+      }),
+
       // ✅ KEY FIX — handle flat 'image' vs array 'images'
       images: {
         edges: isCustomApiFormat

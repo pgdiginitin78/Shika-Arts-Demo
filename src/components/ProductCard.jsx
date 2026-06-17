@@ -55,13 +55,23 @@ export function ProductCard({ product, lightMode = true }) {
 
     setOpen(true);
   };
-console.log("nodehandle", node,product);
+const getPriceSuffix = (title) => {
+  if (!title) return "";
+  const t = title.toLowerCase();
+  if (t.includes("candle") || t.includes("diya") || t.includes("charm") || t.includes("tealight") || t.includes("peony") || t.includes("seashell") || t.includes("trio") || t.includes("quarter") || t.includes("mini-cake") || t.includes("medley") || t.includes("bar") || t.includes("sachet")) return "/ piece";
+  
+  if (t.includes("hamper") || t.includes("gift box") || t.includes("gift set") || t.includes("celebration") || t.includes("keepsake") || t.includes("box print")) return "";
+
+  if (t.includes("set") || t.includes("box") || t.includes("trough") || t.includes("kit")) return "/ set";
+  return "";
+};
+
   return (
     <Link
       to={`/product/${node.handle || node.id}`}
       className="group block relative w-full border rounded"
     >
-      <div className="relative aspect-square overflow-hidden bg-secondary shine-effect">
+      <div className="relative h-[370px] flex-shrink-0 overflow-hidden bg-secondary shine-effect">
         {product?.image || image?.url ? (
           <motion.img
             whileHover={{ scale: 1.05 }}
@@ -77,20 +87,29 @@ console.log("nodehandle", node,product);
           </div>
         )}
         <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out z-10">
-          <button
-            onClick={handleAdd}
-            disabled={isLoading || !variant}
-            className="w-full bg-primary text-primary-foreground cursor-pointer py-3 rounded flex items-center justify-center gap-2 text-[10px] uppercase tracking-ultra hover:bg-accent hover:text-primary transition-colors"
-          >
-            {isLoading ? (
-              <Loader2 className="h-3 w-3 animate-spin" />
-            ) : (
-              <>
-                <Plus size={12} />
-                Add
-              </>
-            )}
-          </button>
+          {Number(variant?.price?.amount || 0) > 0 ? (
+            <button
+              onClick={handleAdd}
+              disabled={isLoading || !variant}
+              className="w-full bg-primary text-primary-foreground cursor-pointer py-3 rounded flex items-center justify-center gap-2 text-[10px] uppercase tracking-ultra hover:bg-accent hover:text-primary transition-colors"
+            >
+              {isLoading ? (
+                <Loader2 className="h-3 w-3 animate-spin" />
+              ) : (
+                <>
+                  <Plus size={12} />
+                  Add
+                </>
+              )}
+            </button>
+          ) : (
+            <Link
+              to={`/product/${node.handle || node.id}`}
+              className="w-full bg-primary text-primary-foreground py-3 rounded flex items-center justify-center gap-2 text-[10px] uppercase tracking-ultra hover:bg-accent hover:text-primary transition-colors text-center"
+            >
+              Contact Us
+            </Link>
+          )}
         </div>
         <button
           onClick={handleWishlist}
@@ -129,16 +148,27 @@ console.log("nodehandle", node,product);
 
         <div className="mt-1 flex items-center justify-between w-full">
           <div className="flex space-x-2 items-center">
-            <span className="line-through font-medium text-[11px] text-muted-foreground">
-              {formatPrice(Number(variant.regularPrice))}
-            </span>
-            <span
-              className={`font-medium text-[11px] ${lightMode ? "text-foreground" : "text-accent"}`}
-            >
-              {variant
-                ? formatPrice(Number(variant.price.amount), variant.price.currencyCode)
-                : "—"}
-            </span>
+            {Number(variant?.price?.amount || 0) > 0 ? (
+              <>
+                {Number(variant?.regularPrice) > 0 && Number(variant?.regularPrice) !== Number(variant?.price?.amount) && (
+                  <span className="line-through font-medium text-[11px] text-muted-foreground">
+                    {formatPrice(Number(variant?.regularPrice))}
+                  </span>
+                )}
+                <span
+                  className={`font-medium text-[11px] ${lightMode ? "text-foreground" : "text-accent"}`}
+                >
+                  {variant
+                    ? formatPrice(Number(variant.price.amount), variant.price.currencyCode)
+                    : "—"}
+                  <span className="text-[10px] normal-case">{getPriceSuffix(node.title)}</span>
+                </span>
+              </>
+            ) : (
+              <span className="text-[10px] font-semibold text-[#1e2321] italic">
+                Contact Us for Pricing & Customization
+              </span>
+            )}
           </div>
 
           {variant?.availableForSale === false && (
